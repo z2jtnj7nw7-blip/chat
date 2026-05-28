@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Secure Chat - WhatsApp Style</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #0b141a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #fff;
+    }
+
+    .chat-box {
+        width: 380px;
+        height: 640px;
+        background: #111b21;
+        border-radius: 18px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    /* HEADER */
+    .header {
+        background: #202c33;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #111;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        background: #00a884;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .header .info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info .name {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .info .status {
+        font-size: 11px;
+        color: #aebac1;
+    }
+
+    /* ENCRYPTION BANNER */
+    .secure {
+        background: #18252d;
+        padding: 6px 10px;
+        font-size: 11px;
+        color: #aebac1;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border-bottom: 1px solid #111;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        background: #00a884;
+        border-radius: 50%;
+    }
+
+    /* CHAT BODY */
+    .messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-image: url("https://i.imgur.com/7vQFQxF.png");
+        background-size: cover;
+    }
+
+    .msg {
+        max-width: 75%;
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        position: relative;
+        word-wrap: break-word;
+    }
+
+    .me {
+        background: #005c4b;
+        align-self: flex-end;
+        border-bottom-right-radius: 2px;
+    }
+
+    .other {
+        background: #202c33;
+        align-self: flex-start;
+        border-bottom-left-radius: 2px;
+    }
+
+    .time {
+        font-size: 10px;
+        color: #aebac1;
+        margin-top: 3px;
+        text-align: right;
+    }
+
+    /* FOOTER */
+    .footer {
+        background: #202c33;
+        padding: 8px;
+        display: flex;
+        gap: 6px;
+        border-top: 1px solid #111;
+    }
+
+    .footer input {
+        flex: 1;
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: none;
+        background: #111b21;
+        color: #fff;
+        outline: none;
+    }
+
+    .footer button {
+        padding: 8px 14px;
+        border-radius: 20px;
+        border: none;
+        background: #00a884;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .footer button:hover {
+        background: #01906f;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="chat-box">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="avatar">X</div>
+        <div class="info">
+            <span class="name">X Secure Chat</span>
+            <span class="status">online • encrypted</span>
+        </div>
+    </div>
+
+    <!-- ENCRYPTION BANNER -->
+    <div class="secure">
+        <div class="dot"></div>
+        Messages are protected with end‑to‑end encryption.
+    </div>
+
+    <!-- CHAT BODY -->
+    <div class="messages" id="messages">
+        <div class="msg other">
+            Welcome to your protected chat.
+            <div class="time">18:30</div>
+        </div>
+
+        <div class="msg me">
+            This looks like WhatsApp but custom.
+            <div class="time">18:31</div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <input type="text" id="input" placeholder="Type a message…">
+        <button id="send">Send</button>
+    </div>
+
+</div>
+
+<script>
+    const sendBtn = document.getElementById("send");
+    const input = document.getElementById("input");
+    const messages = document.getElementById("messages");
+
+    function sendMessage() {
+        const text = input.value.trim();
+        if (!text) return;
+
+        const msg = document.createElement("div");
+        msg.className = "msg me";
+        msg.innerHTML = `
+            ${text}
+            <div class="time">${new Date().toLocaleTimeString().slice(0,5)}</div>
+        `;
+
+        messages.appendChild(msg);
+        messages.scrollTop = messages.scrollHeight;
+        input.value = "";
+    }
+
+    sendBtn.onclick = sendMessage;
+
+    input.addEventListener("keydown", e => {
+        if (e.key === "Enter") sendMessage();
+    });
+</script>
+
+</body>
+</html>
